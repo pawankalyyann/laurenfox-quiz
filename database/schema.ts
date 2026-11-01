@@ -7,6 +7,21 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class QuestionOptionSchema extends BaseModel {
+  static $columns = ['id', 'isCorrect', 'position', 'questionId', 'text'] as const
+  $columns = QuestionOptionSchema.$columns
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isCorrect: boolean
+  @column()
+  declare position: number
+  @column()
+  declare questionId: number
+  @column()
+  declare text: string
+}
+
 export class QuestionSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'text', 'updatedAt'] as const
   $columns = QuestionSchema.$columns
