@@ -60,7 +60,7 @@ export default function Welcome() {
               </div>
             </div>
 
-            <a href="/" className="lf-start">
+            <a href="/register" className="lf-start">
               START THE CHALLENGE
               <span aria-hidden="true">↗</span>
             </a>
