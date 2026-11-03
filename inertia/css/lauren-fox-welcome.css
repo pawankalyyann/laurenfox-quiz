@@ -1,0 +1,461 @@
+.lf-page {
+  --crimson: #841617;
+  --red: #e6444b;
+  --cream: #f8f5ef;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: #0b0b0e;
+  color: var(--cream);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.lf-page,
+.lf-page * {
+  box-sizing: border-box;
+}
+
+.lf-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse at 78% 42%, #84161770, transparent 43%),
+    radial-gradient(ellipse at 3% 80%, #68141650, transparent 48%),
+    #0b0b0e;
+}
+
+.lf-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.13;
+  background-image:
+    linear-gradient(#ffffff35 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff35 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+
+.lf-header,
+.lf-footer {
+  width: min(1240px, calc(100% - 64px));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lf-header {
+  padding: 28px 0;
+  border-bottom: 1px solid #ffffff1b;
+}
+
+.lf-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.lf-brand strong {
+  color: #f28a8f;
+}
+
+.lf-logo {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: var(--crimson);
+  font-size: 19px;
+  letter-spacing: -0.08em;
+  box-shadow: 0 8px 30px #84161770;
+}
+
+.lf-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #c8bec0;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+}
+
+.lf-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #63dfac;
+  box-shadow: 0 0 16px #63dfac;
+}
+
+.lf-main {
+  width: min(1240px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 76px 0 98px;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 55px;
+  align-items: center;
+}
+
+.lf-hero {
+  position: relative;
+  z-index: 2;
+}
+
+.lf-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 27px;
+  color: #ffa0a5;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.lf-eyebrow-line {
+  width: 35px;
+  height: 2px;
+  background: #f25a63;
+}
+
+.lf-hero h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(46px, 6.3vw, 88px);
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  line-height: 1.01;
+}
+
+.lf-hero h1 span {
+  color: #f05259;
+  text-shadow: 0 0 54px #c2273960;
+}
+
+.lf-description {
+  max-width: 490px;
+  margin: 30px 0;
+  color: #bcb4ba;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.lf-stats {
+  max-width: 505px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 32px 0;
+}
+
+.lf-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 18px;
+  border: 1px solid #ffffff23;
+  border-radius: 15px;
+  background: #ffffff09;
+  backdrop-filter: blur(10px);
+}
+
+.lf-stats strong {
+  font-size: 27px;
+  font-weight: 850;
+  letter-spacing: -0.05em;
+}
+
+.lf-stats span {
+  color: #ada4ac;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.07em;
+}
+
+.lf-start {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  min-height: 62px;
+  padding: 0 27px;
+  border-radius: 13px;
+  background: #a71920;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 850;
+  font-size: 13px;
+  letter-spacing: 0.065em;
+  box-shadow: 0 9px 0 #430a0e, 0 20px 45px #84161765;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.lf-start span {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.lf-start:hover {
+  transform: translateY(-3px);
+  background: #c3222a;
+  box-shadow: 0 12px 0 #430a0e, 0 24px 50px #84161780;
+}
+
+.lf-start:focus-visible,
+.lf-brand:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 5px;
+}
+
+.lf-note {
+  margin-top: 26px;
+  color: #968c95;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.lf-visual {
+  position: relative;
+  min-height: 470px;
+  display: grid;
+  place-items: center;
+  perspective: 1000px;
+}
+
+.lf-orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #f46a7850;
+  transform: rotateX(65deg) rotateZ(-25deg);
+}
+
+.lf-orbit-one {
+  width: 470px;
+  height: 470px;
+}
+
+.lf-orbit-two {
+  width: 340px;
+  height: 340px;
+  border-style: dashed;
+  border-color: #ffffff35;
+}
+
+.lf-visual-card {
+  position: relative;
+  width: min(385px, 85%);
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 25px;
+  overflow: hidden;
+  border: 1px solid #e75b67b0;
+  border-radius: 27px;
+  background:
+    radial-gradient(circle at 70% 30%, #96253085, transparent 60%),
+    linear-gradient(145deg, #381116, #161218 70%);
+  box-shadow:
+    22px 22px 0 #5d111b,
+    35px 35px 65px #0009,
+    inset 0 0 50px #f337431c;
+  transform: rotateY(-12deg) rotateX(6deg) rotateZ(-3deg);
+  animation: lf-hover 6s ease-in-out infinite;
+}
+
+.lf-visual-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 22px,
+    #ffffff08 23px, transparent 24px
+  );
+}
+
+.lf-card-top,
+.lf-card-bottom {
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ead2d5;
+}
+
+.lf-question-mark {
+  z-index: 1;
+  align-self: center;
+  font-size: clamp(145px, 18vw, 240px);
+  font-weight: 950;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 12px 12px 0 #a82c37, 0 0 75px #e7334385;
+}
+
+.lf-ready {
+  color: #77efb5;
+}
+
+.lf-floating {
+  position: absolute;
+  z-index: 3;
+  padding: 15px 19px;
+  border: 1px solid #f7717c65;
+  border-radius: 12px;
+  background: #181218ed;
+  color: #fff;
+  box-shadow: 0 15px 35px #0008;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.lf-floating-top {
+  top: 30px;
+  right: -10px;
+  transform: rotate(7deg);
+}
+
+.lf-floating-bottom {
+  bottom: 17px;
+  left: -10px;
+  transform: rotate(-6deg);
+}
+
+.lf-footer {
+  padding: 26px 0;
+  border-top: 1px solid #ffffff1b;
+  color: #968c95;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+@keyframes lf-hover {
+  0%, 100% {
+    transform: rotateY(-12deg) rotateX(6deg) rotateZ(-3deg) translateY(0);
+  }
+  50% {
+    transform: rotateY(-9deg) rotateX(4deg) rotateZ(-2deg) translateY(-13px);
+  }
+}
+
+@media (max-width: 900px) {
+  .lf-main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-top: 58px;
+  }
+
+  .lf-visual {
+    min-height: 430px;
+  }
+}
+
+@media (max-width: 560px) {
+  .lf-header,
+  .lf-footer,
+  .lf-main {
+    width: calc(100% - 36px);
+  }
+
+  .lf-header {
+    padding: 18px 0;
+  }
+
+  .lf-brand {
+    font-size: 12px;
+  }
+
+  .lf-status {
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+
+  .lf-main {
+    padding-top: 52px;
+    padding-bottom: 55px;
+  }
+
+  .lf-description {
+    font-size: 15px;
+  }
+
+  .lf-stats > div {
+    padding: 12px;
+  }
+
+  .lf-stats strong {
+    font-size: 23px;
+  }
+
+  .lf-stats span {
+    font-size: 9px;
+  }
+
+  .lf-visual {
+    min-height: 365px;
+  }
+
+  .lf-visual-card {
+    height: 290px;
+  }
+
+  .lf-orbit-one {
+    width: 310px;
+    height: 310px;
+  }
+
+  .lf-orbit-two {
+    width: 230px;
+    height: 230px;
+  }
+
+  .lf-floating {
+    font-size: 9px;
+    padding: 10px;
+  }
+
+  .lf-floating-top {
+    right: 0;
+  }
+
+  .lf-floating-bottom {
+    left: 0;
+  }
+
+  .lf-footer {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lf-visual-card {
+    animation: none;
+  }
+
+  .lf-start {
+    transition: none;
+  }
+}

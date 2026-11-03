@@ -21,3 +21,4 @@ router.get('/configuration', [controllers.Questions, 'create']).as('configuratio
 router.post('/questions', [controllers.Questions, 'store']).as('questions.store')
 router.put('/questions/:id', [controllers.Questions, 'update']).as('questions.update')
 router.delete('/questions/:id', [controllers.Questions, 'destroy']).as('questions.destroy')
+router.on('/welcome').renderInertia('welcome', {}).as('welcome')
