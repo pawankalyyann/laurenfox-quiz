@@ -1,3 +1,25 @@
-import { ParticipantSchema } from '#database/schema'
+import { DateTime } from 'luxon'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 
-export default class Participant extends ParticipantSchema {}
+export default class Participant extends BaseModel {
+  @column({ isPrimary: true })
+  declare id: number
+
+  @column()
+  declare fullName: string
+
+  @column()
+  declare email: string
+
+  @column()
+  declare phone: string | null
+
+  @column()
+  declare emailVerified: boolean
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}

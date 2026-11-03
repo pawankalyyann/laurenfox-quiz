@@ -4,5 +4,6 @@
  */
 
 export const controllers = {
+  Participants: () => import('#controllers/participants_controller'),
   Questions: () => import('#controllers/questions_controller'),
 }

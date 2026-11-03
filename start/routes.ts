@@ -22,3 +22,7 @@ router.post('/questions', [controllers.Questions, 'store']).as('questions.store'
 router.put('/questions/:id', [controllers.Questions, 'update']).as('questions.update')
 router.delete('/questions/:id', [controllers.Questions, 'destroy']).as('questions.destroy')
 router.on('/welcome').renderInertia('welcome', {}).as('welcome')
+// Participant registration
+router.get('/register', [controllers.Participants, 'create']).as('registration.create')
+router.post('/register', [controllers.Participants, 'store']).as('registration.store')
+router.get('/verify-email', [controllers.Participants, 'pending']).as('registration.pending')

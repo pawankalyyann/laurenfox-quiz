@@ -72,6 +72,24 @@ const routes = {
     tokens: [[0,"welcome"]],
     types: placeholder as Registry['welcome']['types'],
   },
+  'registration.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/register',
+    tokens: [[0,"register"]],
+    types: placeholder as Registry['registration.create']['types'],
+  },
+  'registration.store': {
+    methods: ["POST"],
+    pattern: '/register',
+    tokens: [[0,"register"]],
+    types: placeholder as Registry['registration.store']['types'],
+  },
+  'registration.pending': {
+    methods: ["GET","HEAD"],
+    pattern: '/verify-email',
+    tokens: [[0,"verify-email"]],
+    types: placeholder as Registry['registration.pending']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

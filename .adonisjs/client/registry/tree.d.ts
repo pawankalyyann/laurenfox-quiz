@@ -19,4 +19,9 @@ export interface ApiDefinition {
     destroy: typeof routes['questions.destroy']
   }
   welcome: typeof routes['welcome']
+  registration: {
+    create: typeof routes['registration.create']
+    store: typeof routes['registration.store']
+    pending: typeof routes['registration.pending']
+  }
 }

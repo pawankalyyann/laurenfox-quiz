@@ -15,6 +15,9 @@ export type ScannedRoutes = {
     'questions.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'questions.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'welcome': { paramsTuple?: []; params?: {} }
+    'registration.create': { paramsTuple?: []; params?: {} }
+    'registration.store': { paramsTuple?: []; params?: {} }
+    'registration.pending': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'quiz': { paramsTuple?: []; params?: {} }
@@ -22,6 +25,8 @@ export type ScannedRoutes = {
     'admin.login': { paramsTuple?: []; params?: {} }
     'configuration': { paramsTuple?: []; params?: {} }
     'welcome': { paramsTuple?: []; params?: {} }
+    'registration.create': { paramsTuple?: []; params?: {} }
+    'registration.pending': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'quiz': { paramsTuple?: []; params?: {} }
@@ -29,12 +34,15 @@ export type ScannedRoutes = {
     'admin.login': { paramsTuple?: []; params?: {} }
     'configuration': { paramsTuple?: []; params?: {} }
     'welcome': { paramsTuple?: []; params?: {} }
+    'registration.create': { paramsTuple?: []; params?: {} }
+    'registration.pending': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'quiz.submit': { paramsTuple?: []; params?: {} }
     'admin.login.submit': { paramsTuple?: []; params?: {} }
     'admin.logout': { paramsTuple?: []; params?: {} }
     'questions.store': { paramsTuple?: []; params?: {} }
+    'registration.store': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'questions.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
