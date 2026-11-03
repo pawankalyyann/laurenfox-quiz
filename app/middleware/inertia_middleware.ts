@@ -27,6 +27,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
     return {
       errors: ctx.inertia.always(this.getValidationErrors(ctx)),
       preferences: ctx.inertia.always({ theme }),
+      isAdmin: ctx.session?.get('adminAuthorized') === true,
     }
   }
 

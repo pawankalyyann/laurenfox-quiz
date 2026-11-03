@@ -2,15 +2,19 @@ import { type Data } from '@generated/data'
 
 type Props = {
   question: Data.Question
+  number: number
   selectedOptionId?: number
   onSelect: (optionId: number) => void
 }
 
-export default function QuestionView({ question, selectedOptionId, onSelect }: Props) {
+export default function QuestionView({ question, number, selectedOptionId, onSelect }: Props) {
   const options = question.options ?? []
 
   return (
     <article className="rounded-xl border bg-white p-6 shadow-sm">
+      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-red-800">
+        Question {String(number).padStart(2, '0')}
+      </p>
       <h3 className="mb-5 text-lg font-semibold">{question.text}</h3>
 
       {options.length === 0 ? (
