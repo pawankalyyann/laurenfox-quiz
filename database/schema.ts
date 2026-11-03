@@ -7,6 +7,33 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class ParticipantSchema extends BaseModel {
+  static $columns = [
+    'createdAt',
+    'email',
+    'emailVerified',
+    'fullName',
+    'id',
+    'phone',
+    'updatedAt',
+  ] as const
+  $columns = ParticipantSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare email: string
+  @column()
+  declare emailVerified: boolean
+  @column()
+  declare fullName: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare phone: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class QuestionOptionSchema extends BaseModel {
   static $columns = ['id', 'isCorrect', 'position', 'questionId', 'text'] as const
   $columns = QuestionOptionSchema.$columns
