@@ -18,7 +18,14 @@ export default function FlashToasts() {
   return (
     <Toaster
       position="top-center"
-      toastOptions={{ unstyled: true }}
+      theme="dark"
+      toastOptions={{
+        style: {
+          background: '#21171e',
+          color: '#f7f2f3',
+          border: '1px solid #805363',
+        },
+      }}
       icons={{
         success: <CircleCheck size={18} strokeWidth={1.8} />,
         error: <CircleAlert size={18} strokeWidth={1.8} />,
