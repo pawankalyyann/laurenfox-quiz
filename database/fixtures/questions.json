@@ -1,0 +1,182 @@
+[
+  {
+    "text": "Which SQL command is used to retrieve data from a database?",
+    "options": [
+      {
+        "text": "INSERT"
+      },
+      {
+        "text": "UPDATE"
+      },
+      {
+        "text": "SELECT"
+      },
+      {
+        "text": "DELETE"
+      }
+    ],
+    "correctIndex": 2
+  },
+  {
+    "text": "What is the primary purpose of a Management Information System?",
+    "options": [
+      {
+        "text": "To manufacture computer hardware"
+      },
+      {
+        "text": "To support organizational decisions using information"
+      },
+      {
+        "text": "To replace all employees"
+      },
+      {
+        "text": "To design computer games"
+      }
+    ],
+    "correctIndex": 1
+  },
+  {
+    "text": "What does KPI stand for in business analytics?",
+    "options": [
+      {
+        "text": "Knowledge Processing Interface"
+      },
+      {
+        "text": "Key Programming Index"
+      },
+      {
+        "text": "Key Performance Indicator"
+      },
+      {
+        "text": "Kernel Performance Integration"
+      }
+    ],
+    "correctIndex": 2
+  },
+  {
+    "text": "What is the purpose of an API?",
+    "options": [
+      {
+        "text": "To permanently delete database records"
+      },
+      {
+        "text": "To allow software applications to communicate"
+      },
+      {
+        "text": "To replace an operating system"
+      },
+      {
+        "text": "To manufacture network hardware"
+      }
+    ],
+    "correctIndex": 1
+  },
+  {
+    "text": "What does data normalization help reduce in relational databases?",
+    "options": [
+      {
+        "text": "Redundant data and update anomalies"
+      },
+      {
+        "text": "Internet connection speed"
+      },
+      {
+        "text": "The need for passwords"
+      },
+      {
+        "text": "The number of computer users"
+      }
+    ],
+    "correctIndex": 0
+  },
+  {
+    "text": "Which SQL clause is used to filter rows based on a condition?",
+    "options": [
+      {
+        "text": "ORDER BY"
+      },
+      {
+        "text": "GROUP BY"
+      },
+      {
+        "text": "WHERE"
+      },
+      {
+        "text": "JOIN"
+      }
+    ],
+    "correctIndex": 2
+  },
+  {
+    "text": "What is a common benefit of cloud computing?",
+    "options": [
+      {
+        "text": "Eliminating all cybersecurity risks"
+      },
+      {
+        "text": "Guaranteed unlimited free storage"
+      },
+      {
+        "text": "Making network connections unnecessary"
+      },
+      {
+        "text": "Access to scalable computing resources"
+      }
+    ],
+    "correctIndex": 3
+  },
+  {
+    "text": "In Scrum, what is a sprint?",
+    "options": [
+      {
+        "text": "A software licensing agreement"
+      },
+      {
+        "text": "A timeboxed period for completing planned work"
+      },
+      {
+        "text": "A type of computer virus"
+      },
+      {
+        "text": "A physical network device"
+      }
+    ],
+    "correctIndex": 1
+  },
+  {
+    "text": "Which of the following is an example of multi-factor authentication?",
+    "options": [
+      {
+        "text": "Using a password twice"
+      },
+      {
+        "text": "Using only a username"
+      },
+      {
+        "text": "Using two different browsers"
+      },
+      {
+        "text": "Using a password and a phone verification code"
+      }
+    ],
+    "correctIndex": 3
+  },
+  {
+    "text": "What is a primary key in a relational database?",
+    "options": [
+      {
+        "text": "A unique identifier for each record"
+      },
+      {
+        "text": "A password used to access a database"
+      },
+      {
+        "text": "A method of encrypting stored files"
+      },
+      {
+        "text": "A command used to sort database records"
+      }
+    ],
+    "correctIndex": 0
+  }
+]

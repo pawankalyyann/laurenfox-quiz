@@ -26,3 +26,7 @@ router.on('/welcome').renderInertia('welcome', {}).as('welcome')
 router.get('/register', [controllers.Participants, 'create']).as('registration.create')
 router.post('/register', [controllers.Participants, 'store']).as('registration.store')
 router.get('/verify-email', [controllers.Participants, 'pending']).as('registration.pending')
+
+router.post('/verify-email', [controllers.Participants, 'verify']).as('registration.verify')
+router.post('/verify-email/resend', [controllers.Participants, 'resend']).as('registration.resend')
+router.get('/admin/dashboard', [controllers.Admin, 'index']).as('admin.dashboard')

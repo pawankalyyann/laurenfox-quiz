@@ -1,5 +1,6 @@
 import { Head, useForm } from '@inertiajs/react'
 import type { FormEvent } from 'react'
+import FlashToasts from '~/components/flash_toasts'
 
 export default function Register() {
   const { data, setData, post, processing, errors } = useForm({
@@ -36,8 +37,8 @@ export default function Register() {
             <h1 className="mb-3 text-4xl font-black tracking-tight">Before we begin.</h1>
 
             <p className="mb-8 text-sm leading-6 text-white/60">
-              Enter your details to register for the assessment. Email verification will be required
-              before participation once the verification system is enabled.
+              Enter your details to register for the assessment. We’ll email you a six-digit code to
+              verify your address before you begin.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -110,6 +111,7 @@ export default function Register() {
           </p>
         </div>
       </main>
+      <FlashToasts />
     </>
   )
 }

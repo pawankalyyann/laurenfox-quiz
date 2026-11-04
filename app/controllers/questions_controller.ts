@@ -1,17 +1,15 @@
-import { createHash, timingSafeEqual } from 'node:crypto'
+import { createHash, timingSafeEqual, randomUUID } from 'node:crypto'
 import Question from '#models/question'
+import { DateTime } from 'luxon'
+import { verifiedParticipant } from '#services/participant_access'
+import { allowRequest } from '#services/request_limit'
+import { readyQuestions, quizFingerprint, gradeQuiz } from '#services/quiz_scoring'
 import QuestionTransformer from '#transformers/question_transformer'
 import { createQuestionValidator } from '#validators/question'
 import { quizSubmissionValidator } from '#validators/quiz_submission'
 import env from '#start/env'
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
-
-type StoredQuizResult = {
-  correct: number
-  total: number
-  answers: { questionId: number; optionId: number }[]
-}
 
 function uniqueChoices(options: { text: string }[]) {
   return new Set(options.map(({ text }) => text.trim().toLocaleLowerCase())).size === 4
@@ -23,22 +21,33 @@ function isAdmin(session: HttpContext['session']) {
 
 export default class QuestionsController {
   // Public: never serialize the isCorrect flag to quiz participants.
-  async index({ inertia }: HttpContext) {
+  async index({ inertia, session, response }: HttpContext) {
+    if (!(await verifiedParticipant(session))) return response.redirect().toPath('/welcome')
     const questions = await Question.query()
       .preload('options', (query) => query.orderBy('position'))
       .orderBy('id')
 
+    const fingerprint = quizFingerprint(readyQuestions(questions))
+    const previous = session.get('quizAttempt')
+    if (!previous || previous.fingerprint !== fingerprint) {
+      session.put('quizAttempt', { token: randomUUID(), fingerprint })
+    }
     return inertia.render('quiz', {
-      questions: QuestionTransformer.transform(questions),
+      questions: QuestionTransformer.transform(readyQuestions(questions)),
+      attemptToken: session.get('quizAttempt').token,
     })
   }
 
   async login({ session, response, inertia }: HttpContext) {
-    if (isAdmin(session)) return response.redirect().toRoute('configuration')
+    if (isAdmin(session)) return response.redirect().toPath('/admin/dashboard')
     return inertia.render('admin_login', {})
   }
 
   async authenticate({ request, session, response }: HttpContext) {
+    if (!(await allowRequest('admin-login', request.ip(), 10, 900))) {
+      session.flash('error', 'Too many login attempts. Try again in 15 minutes.')
+      return response.redirect().toRoute('admin.login')
+    }
     const configuredKey = env.get('ADMIN_ACCESS_KEY')
     const password = request.input('password')
 
@@ -62,7 +71,7 @@ export default class QuestionsController {
 
     await session.regenerate()
     session.put('adminAuthorized', true)
-    return response.redirect().toRoute('configuration')
+    return response.redirect().toPath('/admin/dashboard')
   }
 
   async logout({ session, response }: HttpContext) {
@@ -173,67 +182,67 @@ export default class QuestionsController {
     return response.redirect().toRoute('configuration')
   }
 
-  // Existing server-side submission checks retained.
   async submit({ request, response, session }: HttpContext) {
+    const participant = await verifiedParticipant(session)
+    if (!participant) return response.redirect().toPath('/register')
     const { answers } = await request.validateUsing(quizSubmissionValidator)
-    const allQuestions = await Question.query().preload('options')
-    const questions = allQuestions.filter(
-      (question) =>
-        question.options.length === 4 &&
-        question.options.filter((option) => option.isCorrect).length === 1
-    )
-    const submitted = new Map<number, number>()
-    for (const answer of answers) submitted.set(answer.questionId, answer.optionId)
-
-    const validSubmission =
-      questions.length > 0 &&
-      answers.length === questions.length &&
-      submitted.size === questions.length &&
-      questions.every(
-        (question) =>
-          submitted.has(question.id) &&
-          question.options.some((option) => option.id === submitted.get(question.id))
+    const attempt = session.get('quizAttempt')
+    if (!attempt || request.input('attemptToken') !== attempt.token) {
+      session.flash('error', 'This quiz session has ended. Please start a new attempt.')
+      return response.redirect().toRoute('quiz')
+    }
+    const questions = readyQuestions(await Question.query().preload('options').orderBy('id'))
+    if (quizFingerprint(questions) !== attempt.fingerprint) {
+      session.forget('quizAttempt')
+      session.flash(
+        'error',
+        'Questions changed while you were answering. Please review the updated quiz.'
       )
-
-    if (!validSubmission) {
+      return response.redirect().toRoute('quiz')
+    }
+    const result = gradeQuiz(questions, answers)
+    if (!result) {
       session.flash('error', 'Please answer every question with a valid choice.')
       return response.redirect().toRoute('quiz')
     }
-
-    const correct = questions.filter((question) =>
-      question.options.some(
-        (option) => option.isCorrect && option.id === submitted.get(question.id)
-      )
-    ).length
-
-    const result: StoredQuizResult = { correct, total: questions.length, answers }
-    session.put('quizResult', result)
+    // Unique token makes repeated submission idempotent. Store review text as a historical snapshot.
+    await db
+      .table('quiz_attempts')
+      .insert({
+        participant_id: participant.id,
+        token: attempt.token,
+        correct: result.correct,
+        total: result.total,
+        details: JSON.stringify(result.details),
+        created_at: DateTime.utc().toSQL(),
+      })
+      .onConflict('token')
+      .ignore()
+    const saved = await db
+      .from('quiz_attempts')
+      .where('token', attempt.token)
+      .where('participant_id', participant.id)
+      .firstOrFail()
+    session.put('quizResultId', saved.id)
+    session.forget('quizAttempt')
     return response.redirect().toRoute('quiz.results')
   }
 
   async results({ session, response, inertia }: HttpContext) {
-    const saved = session.get('quizResult') as StoredQuizResult | undefined
-    if (!saved || saved.total === 0) return response.redirect().toRoute('quiz')
-
-    const questions = await Question.query().preload('options')
-    const details = saved.answers.map((answer) => {
-      const question = questions.find((item) => item.id === answer.questionId)
-      const selected = question?.options.find((option) => option.id === answer.optionId)
-      const correctOption = question?.options.find((option) => option.isCorrect)
-      return {
-        question: question?.text ?? 'Question unavailable',
-        selectedAnswer: selected?.text ?? 'Unavailable',
-        correctAnswer: correctOption?.text ?? 'Unavailable',
-        isCorrect: Boolean(selected?.isCorrect),
-      }
-    })
-
+    const participant = await verifiedParticipant(session)
+    if (!participant) return response.redirect().toPath('/register')
+    const saved = await db
+      .from('quiz_attempts')
+      .where('id', session.get('quizResultId') || 0)
+      .where('participant_id', participant.id)
+      .first()
+    if (!saved) return response.redirect().toRoute('quiz')
     return inertia.render('results', {
       result: {
         correct: saved.correct,
         total: saved.total,
         percentage: Math.round((saved.correct / saved.total) * 100),
-        details,
+        details: JSON.parse(saved.details),
       },
     })
   }
