@@ -325,6 +325,11 @@
   background: #32212a;
   border-color: #654653;
 }
+.portal .panel {
+  background: var(--panel);
+  color: var(--ink);
+  border-color: var(--line);
+}
 .portal .bg-white {
   background: var(--panel);
 }
