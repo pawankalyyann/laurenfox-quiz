@@ -1,0 +1,17 @@
+# Copy to .env only for a NEW clone; preserve your existing .env during upgrade.
+NODE_ENV=development
+PORT=3333
+HOST=localhost
+LOG_LEVEL=info
+APP_URL=http://localhost:3333
+APP_KEY=
+SESSION_DRIVER=cookie
+ADMIN_ACCESS_KEY=
+MAIL_MAILER=smtp
+MAIL_FROM_NAME="Lauren Fox Quiz"
+MAIL_FROM_ADDRESS=your-email@gmail.com
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your-email@gmail.com
+SMTP_PASSWORD=your-google-app-password
+OTP_SECRET=

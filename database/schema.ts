@@ -7,6 +7,66 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class OtpChallengeSchema extends BaseModel {
+  static $columns = [
+    'codeHash',
+    'createdAt',
+    'expiresAt',
+    'failedAttempts',
+    'id',
+    'lastSentAt',
+    'participantId',
+    'updatedAt',
+    'usedAt',
+  ] as const
+  $columns = OtpChallengeSchema.$columns
+  @column()
+  declare codeHash: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare expiresAt: DateTime | null
+  @column()
+  declare failedAttempts: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime()
+  declare lastSentAt: DateTime | null
+  @column()
+  declare participantId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column.dateTime()
+  declare usedAt: DateTime | null
+}
+
+export class ParticipantSchema extends BaseModel {
+  static $columns = [
+    'createdAt',
+    'email',
+    'emailVerified',
+    'fullName',
+    'id',
+    'phone',
+    'updatedAt',
+  ] as const
+  $columns = ParticipantSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare email: string
+  @column()
+  declare emailVerified: boolean
+  @column()
+  declare fullName: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare phone: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class QuestionOptionSchema extends BaseModel {
   static $columns = ['id', 'isCorrect', 'position', 'questionId', 'text'] as const
   $columns = QuestionOptionSchema.$columns
@@ -33,4 +93,42 @@ export class QuestionSchema extends BaseModel {
   declare text: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class QuizAttemptSchema extends BaseModel {
+  static $columns = [
+    'correct',
+    'createdAt',
+    'details',
+    'id',
+    'participantId',
+    'token',
+    'total',
+  ] as const
+  $columns = QuizAttemptSchema.$columns
+  @column()
+  declare correct: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare details: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare participantId: number
+  @column()
+  declare token: string
+  @column()
+  declare total: number
+}
+
+export class RequestLimitSchema extends BaseModel {
+  static $columns = ['count', 'expiresAt', 'key'] as const
+  $columns = RequestLimitSchema.$columns
+  @column()
+  declare count: number
+  @column()
+  declare expiresAt: bigint | number
+  @column({ isPrimary: true })
+  declare key: string
 }

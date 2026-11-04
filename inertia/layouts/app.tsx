@@ -1,40 +1,51 @@
-import Logo from '~/components/logo'
 import { type ReactNode } from 'react'
-import { ListChecks, Settings } from 'lucide-react'
+import { usePage } from '@inertiajs/react'
+import { Form } from '@adonisjs/inertia/react'
 import FlashToasts from '~/components/flash_toasts'
-import ThemeToggle from '~/components/theme_toggle'
-import NavLink, { type NavItem } from '~/components/nav_link'
-
-const nav: NavItem[] = [
-  { label: 'Quiz', route: 'quiz', icon: ListChecks },
-  { label: 'Configuration', route: 'configuration', icon: Settings },
-]
+import '~/css/portal.css'
 
 export default function AppLayout({ children }: { children: ReactNode }) {
+  const { props, flash } = usePage()
+  const isAdmin = props.isAdmin === true
   return (
-    <>
-      <header className="header header--bar">
-        <div className="header__inner">
-          <Logo size={28} />
-          <div className="header__right">
-            <ThemeToggle />
-          </div>
-        </div>
+    <div className="portal">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <header className="portal-header">
+        <a className="portal-brand" href="/welcome">
+          LAUREN FOX<span>QUIZ /</span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="/">Assessment</a>
+          {isAdmin && (
+            <>
+              <a href="/admin/dashboard">Dashboard</a>
+              <a href="/configuration">Questions</a>
+              <Form route="admin.logout">
+                {({ processing }) => (
+                  <button type="submit" disabled={processing}>
+                    Sign out
+                  </button>
+                )}
+              </Form>
+            </>
+          )}
+        </nav>
       </header>
-
-      <nav className="subnav">
-        <div className="subnav__inner">
-          {nav.map(({ label, route, icon: Icon }) => (
-            <NavLink key={label} route={route} exact className="subnav__item">
-              {Icon && <Icon size={14} />}
-              {label}
-            </NavLink>
-          ))}
-        </div>
-      </nav>
-
-      <div className="app-main">{children}</div>
+      <main id="main-content" className="portal-main">
+        {(flash.error || flash.success) && (
+          <div className="portal-message" role={flash.error ? 'alert' : 'status'}>
+            {flash.error || flash.success}
+          </div>
+        )}
+        {children}
+      </main>
+      <footer className="portal-footer">
+        <span>LAUREN FOX / KNOWLEDGE ASSESSMENT</span>
+        <span>Think. Choose. Achieve.</span>
+      </footer>
       <FlashToasts />
-    </>
+    </div>
   )
 }
