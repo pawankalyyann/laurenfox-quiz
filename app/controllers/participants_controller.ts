@@ -15,13 +15,14 @@ export default class ParticipantsController {
   }
 
   private async issue(ctx: HttpContext, participant: Participant) {
-    if (
-      !(await allowRequest('otp-minute', String(participant.id), 1, 60)) ||
-      !(await allowRequest('otp-hour', String(participant.id), 5, 3600))
-    ) {
+    if (!(await allowRequest('otp-minute', String(participant.id), 1, 60))) {
+      ctx.session.flash('error', 'Please wait one minute before requesting another code.')
+      return
+    }
+    if (!(await allowRequest('otp-hour', String(participant.id), 5, 3600))) {
       ctx.session.flash(
         'error',
-        'Please wait before requesting another code. Maximum five codes per hour.'
+        'You have reached the limit of five codes this hour. Please try again next hour.'
       )
       return
     }
