@@ -1,105 +1,86 @@
-# Student Programmer Task
+# LaurenFox Quiz
 
-This project is an incomplete quiz application designed as a Student Programmer performance task.
-This is a template repository, so instead of forking or cloning it directly, use the
-"Use this template" button and select "Create a new repository". Your new repository can be
-private, but make sure you invite me ([@bradenroper](https://github.com/bradenroper)) as a
-collaborator when you start working.
+A full-stack quiz web application with multiple-choice quizzes, server-side scoring, email verification, and an admin dashboard for managing questions and reviewing saved attempts.
 
-## The Task
+---
 
-The provided application has two tabs: Quiz and Configuration. The Quiz tab will show all of the questions
-from a local sqlite database while the configuration tab will allow you to edit and add new questions.
-Currently questions are simply text, but you will need to add multiple choice capabilities, with specific
-task items outlined further below. You will also need to report results of the quiz after a user fills out 
-and submits all of their answers. Design and structural decisions for these modifications are left up to you.
+## Features
 
-The use of AI tools is allowed, but should be disclosed via email when you are finished working (refer to your original task email for details). In the case of using AI, note that you should still be the one to make design decisions that you can explain and provide rationale for.
+- **Multiple-choice quizzes:** participants answer every question and submit for scoring
+- **Server-side scoring:** the server validates each submission and calculates the authoritative score
+- **Results review:** participants see their score and an answer review after submitting
+- **Email verification:** participants verify their email with a code that expires, has an attempt limit, and has resend limits
+- **Admin dashboard:** administrators create, edit, and delete questions, set four answer choices with one correct answer, and view saved attempts
+- **Reliable results:**
+  - Stale-quiz detection rejects a submission if the questions changed after the participant loaded the quiz
+  - Each saved attempt keeps a snapshot of what was graded, so editing questions later doesn't rewrite past results
+  - A unique attempt token prevents duplicate attempts from repeated submissions
 
-## Stack
+## Tech Stack
 
-This project uses the following development stack, find their documentation below.
+| Layer | Tools |
+|---|---|
+| Frontend | React, Inertia, Tailwind CSS |
+| Backend | AdonisJS 7 (TypeScript) |
+| Database | SQLite with Lucid ORM |
+| Quality checks | Automated tests, TypeScript type checks, lint, production build |
+| Version control | Git and GitHub |
+| Development | AI-assisted coding (ChatGPT, Codex) for implementation, debugging, and tests |
 
-- [AdonisJS 7](https://docs.adonisjs.com/introduction) (backend)
-- [Inertia](https://inertiajs.com/docs/v3) + [React](https://react.dev/learn) (frontend)
-- [SQLite](https://www.sqlite.org/) via [Lucid ORM](https://lucid.adonisjs.com/docs/introduction) (database)
-- [Tailwind CSS](https://tailwindcss.com/docs) (styling)
+## How It Works
 
-## Setup
+React renders the pages, and Inertia connects them to the AdonisJS backend. AdonisJS handles routes, validation, and application logic. Lucid manages the database models and queries, and SQLite stores the data. Answer choices are stored as separate records linked to their question, so the server can confirm that each submitted choice belongs to the question being answered.
 
-1. First, install [Node.js](https://nodejs.org/en/download) (24 or newer, includes npm) and [Git](https://git-scm.com/downloads)
+## Screenshots
 
-2. Create your own repository from this template (see above), then clone your new repository and install dependencies. Note that you should not clone this repository directly to keep your work private from other candidates.
+_Coming soon: quiz page, results page, and admin dashboard._
 
-   ```sh
-   git clone https://github.com/<your-username>/<your-repo-name>.git
-   cd <your-repo-name>
-   npm install
-   ```
+## How to Run
 
-3. Create your `.env` file based on the `.env.example` and generate an app key:
+Requires Node.js 24 or newer and Git.
 
-   ```sh
-   cp .env.example .env
-   node ace generate:key
-   ```
+```bash
+git clone https://github.com/pawankalyyann/laurenfox-quiz.git
+cd laurenfox-quiz
+npm install
+cp .env.example .env
+node ace generate:key
+node ace migration:run
+npm run dev
+```
 
-   On Windows, you may need `copy .env.example .env` instead of `cp`, or just copy and rename the file.
+Then open http://localhost:3333.
 
-4. Run the database migrations. This will create database tables in a contained sqlite file. 
+Quality checks:
 
-   ```sh
-   node ace migration:run
-   ```
+```bash
+node ace test        # automated tests
+npm run typecheck    # TypeScript checks
+npm run lint         # lint
+```
 
-5. Start the dev server:
+## Testing
 
-   ```sh
-   npm run dev
-   ```
+- 6 automated tests covering scoring, email verification, access restrictions, data persistence, admin question management, and stale quizzes
+- TypeScript type checks, lint, and a production build all pass
+- Manual browser testing of question management, scoring, and access restrictions
 
-   Then open http://localhost:3333.
+## What I Built
 
-### Useful Commands
+I started from a provided starter app that had a Quiz tab, a Configuration tab, and text-only questions. I extended it with the full quiz flow: multiple-choice questions, submissions, server-side scoring, and results. I also added participant email verification and an admin dashboard with saved attempts. I learned an unfamiliar stack by tracing one complete workflow first, then made and tested small changes.
 
-| Command                    | Description                                                                        |
-| -------------------------- | ---------------------------------------------------------------------------------- |
-| `npm run dev`              | Starts the dev server. May need to rerun in development if it crashes during edits |
-| `node ace migration:run`   | Run pending migrations                                                             |
-| `node ace migration:fresh` | Drop all tables and rerun migrations, helpful after updating db tables             |
-| `node ace list`            | List all available ace commands                                                    |
-| `npm run typecheck`        | Check for TypeScript errors                                                        |
-| `npm run lint`             | Lint the project                                                                   |
+## What I'd Improve Next
 
-## Task List
+- A fuller accessibility and cross-browser review
+- Individual administrator accounts instead of a shared demo access key
+- Deployment and monitoring
 
-The goal is to add multiple choice functionality to the quiz. Questions currently only contain text, but will need to be
-modified to include multiple choice options.
+## What I Learned
 
-- Update the database schema to support multiple choice
-  - Relevant Files: `database/migrations/`
-  - Relevant Docs: [Migrations](https://lucid.adonisjs.com/docs/migrations), [Table builder](https://lucid.adonisjs.com/docs/table-builder), [Relationships](https://lucid.adonisjs.com/docs/relationships)
-- Update the question model, validator, and transformer
-  - Relevant Files: `app/models/question.ts`, `app/validators/question.ts`, `app/transformers/question_transformer.ts`
-  - Relevant Docs: [Models](https://lucid.adonisjs.com/docs/models), [Validation](https://docs.adonisjs.com/guides/basics/validation), [Transformers](https://docs.adonisjs.com/guides/frontend/transformers)
-- Update the questions controller and routes
-  - Relevant Files: `app/controllers/questions_controller.ts`, `start/routes.ts`
-  - Relevant Docs: [Controllers](https://docs.adonisjs.com/guides/basics/controllers), [Routing](https://docs.adonisjs.com/guides/basics/routing), [CRUD operations](https://lucid.adonisjs.com/docs/crud-operations)
-- Update the question form
-  - Relevant Files: `inertia/components/question_form.tsx`
-  - Relevant Docs: [Inertia forms](https://inertiajs.com/docs/v3/the-basics/forms), [AdonisJS + Inertia](https://docs.adonisjs.com/guides/frontend/inertia)
-- Update the configuration question component
-  - Relevant Files: `inertia/components/question_config.tsx`
-  - Relevant Docs: [React](https://react.dev/learn), [Tailwind CSS](https://tailwindcss.com/docs)
-- Update the quiz question component
-  - Relevant Files: `inertia/components/question_view.tsx`
-  - Relevant Docs: [React state](https://react.dev/learn/state-a-components-memory), [Tailwind CSS](https://tailwindcss.com/docs)
+- How to learn a new framework quickly by following one request from the database to the interface
+- Why the server, not the browser, should decide scores and validate submissions
+- Using AI coding tools effectively while reviewing, testing, and being able to explain every change
 
-## Scoring
+---
 
-You will be scored based on teh following critiera:
-
-- Quality of code
-- Quality of commits/source control management
-- Functionality and organization of the system
-- Design and style of the system
+**Author:** Pawan Kalyan Chamala · [LinkedIn](https://www.linkedin.com/in/pawan-kalyan-chamala-355248381)
